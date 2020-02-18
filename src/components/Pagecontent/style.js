@@ -6,10 +6,23 @@ export const Pagecontent = styled.div`
     margin-bottom: 100px;
     margin-right: 70px;
     min-height:calc(100vh - 242px); 
+
+    @media (max-width: 1365px) {
+      flex-direction: column;
+    }
+
     @media only screen and (max-width: 375px) {
-        flex-direction: column;
+        /* flex-direction: column; */
         margin: 142px 25px 100px 25px;
-      }   
+        min-height: 500px;
+
+        &.pos-fixed {
+          position: fixed;
+          left: 0;
+          right: 0;
+        }
+
+    }   
 `
 
 export const Section = styled.div`    
@@ -19,15 +32,20 @@ export const Section = styled.div`
     min-height:calc(100vh - 242px); 
     max-height:727px;     
     z-index:99;
+    @media (max-width: 1365px) {
+      width:100% !important;
+        margin-bottom:50px;
+    }
+/* 
     @media only screen and (max-width: 375px) {
         width:100% !important;
         margin-bottom:50px;
-      }  
+      }   */
 `
 export const InputCover = styled.div`
     margin:2.8em 2.8em;
 
-    @media (max-width: 360px) {
+    @media (max-width: 375px) {
       margin: 2.8em 0;
     }
     
@@ -115,6 +133,16 @@ export const InputCover = styled.div`
         &::placeholder {
             color: #fff;
         }
+
+        @media (max-width: 375px) {
+          padding: 1.5em 1em 1em 1em;
+
+          + {
+            .floating-label {
+              left: .25em;
+            }
+          }
+        }
         
     }  
     button{
@@ -131,6 +159,9 @@ export const InputCover = styled.div`
         &.lastBtn{
             margin-left:1px;
             border-radius: 0 5px 5px 0;          
+        }
+        @media (max-width: 375px) {
+          padding: 20px 16px !important;
         }
     }
 `
@@ -187,16 +218,14 @@ width:100%;
         margin: auto;
     }
     
-}
-`
+}`
 
 // Modal
 export const Modal = styled.div`
   /* The Modal (background) */
   display: none;
   position: fixed;
-  z-index: 999;
-  padding-top: 100px;
+  z-index: 99999;
   left: 0;
   top: 0;
   width: 100%;
@@ -204,12 +233,14 @@ export const Modal = styled.div`
   overflow: auto;
   background-color: rgba(0,0,0,0.4);
 
-  @media (max-width: 360px) {
-    padding-top: 0;
-  }
-
   &.is-visible {
     display: block;
+  }
+
+  /* Add Animation */
+  @keyframes animatetop {
+    from {top:-50%; opacity:0} 
+    to {top:50%; opacity:1;transform: translateY(-50%);}
   }
 
   /* Modal Content */
@@ -224,21 +255,19 @@ export const Modal = styled.div`
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     animation-name: animatetop;
     animation-duration: 0.4s;
+    top: 50%;
+    transform: translateY(-50%);
 
-    @media (max-width: 360px) {
+    @media (max-width: 375px) {
       width: 100%;
+      top: 0;
+      transform: translateY(0);
+
+      @keyframes animatetop {
+        from {top:-50%; opacity:0} 
+        to {top:0; opacity:1;transform: translateY(0);}
+      }
     }
-  }
-
-  /* Add Animation */
-  @-webkit-keyframes animatetop {
-    from {top:-300px; opacity:0} 
-    to {top:0; opacity:1}
-  }
-
-  @keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
   }
 
   /* The Close Button */
@@ -253,7 +282,7 @@ export const Modal = styled.div`
     top: 16px;
     margin-top: -3px;
 
-    @media (max-width: 360px) {
+    @media (max-width: 375px) {
       font-size: 25px;
       margin-top: -5px;
     }
@@ -272,7 +301,7 @@ export const Modal = styled.div`
     color: white;
     position: relative;
 
-    @media (max-width: 360px) {
+    @media (max-width: 375px) {
       padding: 8px 16px;
     }
   }
@@ -288,7 +317,7 @@ export const Modal = styled.div`
       margin-right: 10px;
     }
 
-    @media (max-width: 360px) {
+    @media (max-width: 375px) {
       font-size: 16px;
 
       svg {
@@ -309,94 +338,6 @@ export const Modal = styled.div`
     color: white;
   }
 `
-
-// Rangle Slider
-export const Rangeslider = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  width: 9.9em;
-
-  .range-slider {
-    /* background-color: #6FF48D !important; */
-    height: 36em;
-    max-width: 6.6em;
-    position: relative;
-  }
-
-  .range-slider__range-values {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    height: 36em;
-
-    span {
-      margin: .5em 0;
-      font-size: 24px;
-      text-align: right;
-    }
-  }
-  .range-slider__inner {
-    position: absolute;
-    transform-origin: center;
-    transform: translateX(-50%) translateY(-50%) rotateZ(270deg);
-    position: absolute;
-    top: 50%;
-    margin-left: 6.6em;
-  }
-  .range-slider__input {
-    -webkit-appearance: none;
-    width: 480px;
-    height: 6.6em;
-    background: #6FF48D;
-    margin: 0;
-    :focus {
-      outline: none;
-    }
-
-    ::-webkit-slider-runnable-track {
-      /* background-color: #6FF48D !important; */
-      height: 100%;
-    }
-    ::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 67px;
-      height: 6.6em;
-      cursor: pointer;
-      border: none;
-      background: rgba(0,0,0,0.001);
-    }
-  }
-  .range-slider__label {
-    width: 3.3em;
-    height: 67px;
-    background: #2A434F;
-    transform-origin: left top;
-    transform: rotate(90deg);
-    display: block;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    border-radius: 0 4px 4px 0;
-    top: 33.5px;
-    left: 33.5px;
-    font-size: 24px;
-    pointer-events: none;
-    user-select: none;
-
-    &::after {
-      content: '';
-      display: inline-block;
-      border-style: solid;
-      border-color: transparent #2A434F transparent transparent;
-      border-width: 33.5px 33.5px 33.5px 0;
-      position: absolute;
-      left: -33px;
-    }
-  }
-`
-
 
 // Table Wrapper
 export const TableWrapper = styled.div`
@@ -453,7 +394,7 @@ export const TableWrapper = styled.div`
 
   .ReactVirtualized__Table__headerRow,
   .ReactVirtualized__Grid.ReactVirtualized__Table__Grid {
-    min-width: 600px;
+    min-width: 500px;
   }
 
   .ReactVirtualized__Grid.ReactVirtualized__Table__Grid {
@@ -484,4 +425,94 @@ export const TableWrapper = styled.div`
   .bitcoin-icon {
     margin-right: 5px;
   }
+`
+
+export const SliderCover = styled.div`
+    .rangeslider{        
+        .rangeslider__fill{
+            background-color: #FA6868 !important;
+            /* @media (max-width: 375px) { */
+              height: var(--rangeslider-fill) !important;
+            /* } */
+        }
+    } 
+    .rangeslider-vertical{
+        background-color: #6FF48D !important;
+        height:36em;
+        max-width:6.6em;
+
+        .rangeslider__handle{
+            background-color:#2A434F;
+            border:none; 
+            width:100px;
+            /* height:67px; */
+            z-index:10;
+            left:30px;
+            height: auto;
+            line-height: 67px;
+            height: 67px;
+            display: flex;
+            align-items: center;
+            border-radius: 0 6px 6px 0;
+
+            /* @media (max-width: 375px) { */
+              top: var(--rangeslider-handle) !important;
+            /* } */
+            
+            
+               
+            &:focus{
+                outline:none !important;
+            } 
+            &:after{
+                content: '';
+                width: 0;
+                height: 0;
+                border-top: 33.5px solid transparent;
+                border-bottom: 33.5px solid transparent;
+                border-right: 30px solid #2A434F;
+                position: absolute;
+                left: -30px;
+                top: 0px;   
+            }
+            .rangeslider__handle-label {
+                    border-color:green;
+                    width:100px;
+                    /* height:67px; */
+                    height: auto;
+                    font-size:39px;
+                    line-height:39px;
+                    display:flex;
+                    align-items:center;
+                    user-select: none;
+
+            }
+           
+            
+        }
+        .rangeslider__labels {
+            z-index:1;
+            width: 65px;
+            margin: 0 0 0 130px;
+            left: 0;
+            .rangeslider__label-item{
+                left: -175px;
+                width: 35px;
+                text-align: right;
+                font-size: 21px;
+                &:before{
+                    display:none;
+                }
+                &:first-child {
+                  top: 10px !important;
+                }
+                &:last-child {
+                  top: initial !important;
+                  bottom: -10px !important;
+                }
+            }
+        }
+        
+       
+    }
 `

@@ -6,7 +6,7 @@ import {
   InputCover,
   SvgContent,
   Modal,
-  Rangeslider,
+  SliderCover,
   TableWrapper
 } from "./style";
 import { useQuery, useSubscription } from "@apollo/react-hooks";
@@ -14,16 +14,15 @@ import { Column, Table } from "react-virtualized";
 import Loader from "../Loader";
 import GET_LAUNCHES from "./graphql";
 import subscription from "./subscriptionql";
+import Slider from 'react-rangeslider';
+import 'react-rangeslider/lib/index.css';
 
-let rangeValueState = 0;
-let bulletPosition = "33.5px";
-let linearGradient = "";
+
 const PageContent = () => {
   const { data, loading, error, fetchMore } = useQuery(GET_LAUNCHES);
   const [tableData, setTableData] = useState([]);
   const [horizontal, setHorizontal] = useState("");
   const [modalVisibility, setmodalVisibility] = useState(false);
-  const [rangeValue, setRangeValue] = useState(bulletPosition);
   const testSubscription = useSubscription(subscription);
   useEffect(() => {
     if (data && data !== undefined && data.bets && data.bets.length > 0) {
@@ -66,44 +65,25 @@ const PageContent = () => {
     0: "0",
     100: "100"
   };
-  let rangeValueHandle = value => {
-    bulletPosition = (value.target.value / 100) * 480 + 33.5;
-    setRangeValue(bulletPosition + "px");
-    rangeValueState = value.target.value;
-    linearGradient = `${"linear-gradient(to right, #FA6868 0% , #FA6868 " +
-      rangeValueState +
-      "% , #6FF48D " +
-      rangeValueState +
-      "% , #6FF48D 100%)"}`;
-  };
+  
   return (
     <>
       <Pagecontent className="dFlex flex-direction-row justify-content-around">
         <Section className="dFlex flex-direction-column justify-content-center align-items-center">
-          <Rangeslider>
-            <div className="range-slider">
-              <div className="range-slider__range-values">
-                <span>100</span>
-                <span>0</span>
-              </div>
-
-              <div className="range-slider__inner">
-                <input
-                  type="range"
-                  className="range-slider__input"
-                  value={rangeValueState}
-                  onChange={e => rangeValueHandle(e)}
-                  style={{ background: linearGradient }}
-                />
-                <label
-                  className="range-slider__label"
-                  style={{ left: rangeValue }}
-                >
-                  {rangeValueState}
-                </label>
-              </div>
-            </div>
-          </Rangeslider>
+          <SliderCover style={{'--rangeslider-fill': (((+horizontal / 100) * 504)) + 'px', '--rangeslider-handle': ((504 - 67) - (((+horizontal / 100) * 504) - 33.5)) + 'px'}}>
+            <Slider
+              min={0}
+              max={100}
+              step={1}
+              value={Number(horizontal)}
+              orientation="vertical"
+              reverse={false}
+              tooltip={false}
+              onChange={handleOnChange}
+              labels={verticalLabels}
+              handleLabel={String(horizontal)}              
+            />
+          </SliderCover>
           <InputCover className="dFlex">
             <div className="floating-label-wrap">
               <input
